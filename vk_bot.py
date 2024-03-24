@@ -32,8 +32,8 @@ def handle_new_question_request(event, vk_api, db):
 
 def handle_solution_attempt(event, vk_api, db):
     user_id = event.user_id
-    users_answer = db.get(f'vk-{user_id}').split('.')[0]
-    if event.text == users_answer:
+    users_answer = db.get(f'vk-{user_id}').split('.')[0].strip().lower()
+    if event.text.strip().lower() == users_answer:
         vk_api.messages.send(
             user_id=event.user_id,
             message='Правильно! Поздравляю! Для следующего вопроса нажми "Новый вопрос"',

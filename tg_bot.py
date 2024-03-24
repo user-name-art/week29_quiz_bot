@@ -55,8 +55,8 @@ def handle_new_question_request(update: Update, context: CallbackContext, db):
 
 def handle_solution_attempt(update: Update, context: CallbackContext, db):
     user = update.message.from_user
-    users_answer = db.get(f'tg-{user.id}').split('.')[0]
-    if update.message.text == users_answer:
+    users_answer = db.get(f'tg-{user.id}').split('.')[0].strip().lower()
+    if update.message.text.strip().lower() == users_answer:
         update.message.reply_text(
             'Правильно! Поздравляю! Для следующего вопроса нажми Новый вопрос',
             reply_markup=show_quiz_keyboard()
