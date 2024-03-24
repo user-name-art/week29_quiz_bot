@@ -2,6 +2,9 @@
 
 Боты для **Telegram** и **VK** для проведения викторин.
 
+![Record_2024-03-24-22-49-14](https://github.com/user-name-art/week29_quiz_bot/assets/112713337/cd60e5a8-3485-42f3-9449-8e6a543d8ce6)
+![Record_2024-03-24-22-47-54(1)](https://github.com/user-name-art/week29_quiz_bot/assets/112713337/cefa07b6-1bc9-4b39-a418-1ae5f28d859f)
+
 Примеры ботов:
 * [Telegram](https://t.me/art_2024_quiz_bot)
 * Сообщество [VK](https://vk.com/club225198457)
