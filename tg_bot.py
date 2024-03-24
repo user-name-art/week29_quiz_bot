@@ -55,7 +55,7 @@ def handle_new_question_request(update: Update, context: CallbackContext, db):
 
 def handle_solution_attempt(update: Update, context: CallbackContext, db):
     user = update.message.from_user
-    users_answer = db.get(f'tg-{user.id}').decode('utf-8').split('.')[0]
+    users_answer = db.get(f'tg-{user.id}').split('.')[0]
     if update.message.text == users_answer:
         update.message.reply_text(
             'Правильно! Поздравляю! Для следующего вопроса нажми Новый вопрос',
@@ -72,7 +72,7 @@ def handle_solution_attempt(update: Update, context: CallbackContext, db):
 
 def handle_give_up(update: Update, context: CallbackContext, db):
     user = update.message.from_user
-    answer = db.get(f'tg-{user.id}').decode('utf-8').split('.')[0]
+    answer = db.get(f'tg-{user.id}').split('.')[0]
     update.message.reply_text(
             f'Правильный ответ: {answer}',
             reply_markup=show_quiz_keyboard()
