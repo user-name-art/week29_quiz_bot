@@ -1,8 +1,15 @@
+import os
+import random
+
+
 def get_questions_and_answers_from_file():
     questions = []
     answers = []
 
-    with open('quiz-questions/plehan17.txt', 'r', encoding='KOI8-R') as file:
+    DIR = 'quiz-questions'
+    random_file = os.path.join(DIR, random.choice(os.listdir(DIR)))
+
+    with open(random_file, 'r', encoding='KOI8-R') as file:
         for line in file.read().split('\n\n'):
             if line.startswith('Вопрос'):
                 question = ' '.join(line.split('\n')[1:]).lstrip()
