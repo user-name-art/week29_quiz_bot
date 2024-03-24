@@ -86,19 +86,17 @@ def main() -> None:
 
     bot_token = env.str('TG_BOT_TOKEN')
     db_url = env.str('DB_URL')
-    db_password = env.str('DB_PASSWORD')
     db_port = env.str('DB_PORT')
 
     redis_db = redis.Redis(
         host=db_url,
         port=db_port,
-        password=db_password
+        charset='utf-8',
+        decode_responses=True
     )
 
     updater = Updater(bot_token)
     dispatcher = updater.dispatcher
-
-    dispatcher.bot_data['redis_db'] = redis_db
 
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
