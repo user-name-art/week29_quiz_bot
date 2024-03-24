@@ -12,7 +12,7 @@ from telegram.ext import (
     CallbackContext,
     ConversationHandler,
 )
-from main import get_questions_and_answers_from_file
+from load_questions_from_file import get_questions_and_answers_from_file
 
 
 logging.basicConfig(
