@@ -12,15 +12,11 @@ from telegram.ext import (
     CallbackContext,
     ConversationHandler,
 )
+from log_handler import TelegramLogsHandler
 from load_questions_from_file import get_questions_and_answers_from_file
 
 
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
-
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('Logger')
 
 
 START, GAME = range(2)
@@ -87,6 +83,10 @@ def main() -> None:
     bot_token = env.str('TG_BOT_TOKEN')
     db_url = env.str('DB_URL')
     db_port = env.str('DB_PORT')
+    admin_session_id = env.str('TG_ADMIN_ID')
+
+    logger.setLevel(logging.INFO)
+    logger.addHandler(TelegramLogsHandler(bot_token, admin_session_id))
 
     redis_db = redis.Redis(
         host=db_url,
@@ -96,6 +96,7 @@ def main() -> None:
     )
 
     updater = Updater(bot_token)
+    logger.info('tg bot started')
     dispatcher = updater.dispatcher
 
     conv_handler = ConversationHandler(
