@@ -37,8 +37,7 @@ def start(update: Update, context: CallbackContext) -> None:
     return GAME
 
 
-def handle_new_question_request(update: Update, context: CallbackContext, db):
-    questions_and_answers = get_questions_and_answers_from_file()
+def handle_new_question_request(update: Update, context: CallbackContext, db, questions_and_answers):
     question = random.choice(list(questions_and_answers))
     answer = questions_and_answers[question]
 
@@ -85,6 +84,8 @@ def main() -> None:
     db_port = env.str('DB_PORT')
     admin_session_id = env.str('TG_ADMIN_ID')
 
+    questions_and_answers = get_questions_and_answers_from_file()
+
     logger.setLevel(logging.INFO)
     logger.addHandler(TelegramLogsHandler(bot_token, admin_session_id))
 
@@ -108,7 +109,8 @@ def main() -> None:
                     Filters.regex('^(Новый вопрос)$'),
                     partial(
                         handle_new_question_request,
-                        db=redis_db
+                        db=redis_db,
+                        questions_and_answers=questions_and_answers
                         )
                 )
             ],
@@ -117,7 +119,8 @@ def main() -> None:
                     Filters.regex('^(Новый вопрос)$'),
                     partial(
                         handle_new_question_request,
-                        db=redis_db
+                        db=redis_db,
+                        questions_and_answers=questions_and_answers
                         )
                 ),
                 MessageHandler(

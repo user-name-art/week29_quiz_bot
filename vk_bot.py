@@ -17,8 +17,7 @@ keyboard.add_line()
 keyboard.add_button('Мой счет', color=VkKeyboardColor.POSITIVE)
 
 
-def handle_new_question_request(event, vk_api, db):
-    questions_and_answers = get_questions_and_answers_from_file()
+def handle_new_question_request(event, vk_api, db, questions_and_answers):
     question = random.choice(list(questions_and_answers))
     answer = questions_and_answers[question]
 
@@ -69,6 +68,8 @@ def main():
     admin_session_id = env.str('TG_ADMIN_ID')
     tg_bot_token = env.str('TG_BOT_TOKEN')
 
+    questions_and_answers = get_questions_and_answers_from_file()
+
     logger = logging.getLogger('Logger')
     logger.setLevel(logging.INFO)
     logger.addHandler(TelegramLogsHandler(tg_bot_token, admin_session_id))
@@ -101,7 +102,12 @@ def main():
                             keyboard=keyboard.get_keyboard()
                         )
                     elif event.text == 'Новый вопрос':
-                        handle_new_question_request(event, vk_api, db=redis_db)
+                        handle_new_question_request(
+                            event,
+                            vk_api,
+                            db=redis_db,
+                            questions_and_answers=questions_and_answers
+                            )
                     elif event.text == 'Сдаться':
                         handle_give_up(event, vk_api, db=redis_db)
                     else:
