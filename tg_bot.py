@@ -1,6 +1,7 @@
 import logging
 import random
 import redis
+import argparse
 from environs import Env
 from functools import partial
 from telegram import Update, ReplyKeyboardMarkup
@@ -84,7 +85,18 @@ def main() -> None:
     db_port = env.str('DB_PORT')
     admin_session_id = env.str('TG_ADMIN_ID')
 
-    questions_and_answers = get_questions_and_answers_from_file()
+    parser = argparse.ArgumentParser(
+        description='Путь к папке с файлами, содержащими вопросы и ответы.'
+        )
+    parser.add_argument(
+        'folder_path',
+        nargs='?',
+        default='quiz-questions',
+        help='путь к папке с файлами, содержащими вопросы и ответы.'
+    )
+    folder_path = parser.parse_args().folder_path
+
+    questions_and_answers = get_questions_and_answers_from_file(folder_path)
 
     logger.setLevel(logging.INFO)
     logger.addHandler(TelegramLogsHandler(bot_token, admin_session_id))

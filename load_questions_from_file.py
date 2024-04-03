@@ -2,12 +2,14 @@ import os
 import random
 
 
-def get_questions_and_answers_from_file():
+def get_questions_and_answers_from_file(folder_path):
     questions = []
     answers = []
 
-    DIR = 'quiz-questions'
-    random_file = os.path.join(DIR, random.choice(os.listdir(DIR)))
+    random_file = os.path.join(
+        folder_path,
+        random.choice(os.listdir(folder_path))
+        )
 
     with open(random_file, 'r', encoding='KOI8-R') as file:
         for line in file.read().split('\n\n'):

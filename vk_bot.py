@@ -2,6 +2,7 @@ from environs import Env
 import vk_api as vk
 import redis
 import random
+import argparse
 import logging
 from vk_api.utils import get_random_id
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
@@ -70,7 +71,18 @@ def main():
     admin_session_id = env.str('TG_ADMIN_ID')
     tg_bot_token = env.str('TG_BOT_TOKEN')
 
-    questions_and_answers = get_questions_and_answers_from_file()
+    parser = argparse.ArgumentParser(
+        description='Путь к папке с файлами, содержащими вопросы и ответы.'
+        )
+    parser.add_argument(
+        'folder_path',
+        nargs='?',
+        default='quiz-questions',
+        help='путь к папке с файлами, содержащими вопросы и ответы.'
+    )
+    folder_path = parser.parse_args().folder_path
+
+    questions_and_answers = get_questions_and_answers_from_file(folder_path)
 
     logger.setLevel(logging.INFO)
     logger.addHandler(TelegramLogsHandler(tg_bot_token, admin_session_id))
